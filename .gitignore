@@ -1,0 +1,6 @@
+log/*
+training/*
+saved/*
+training_data.npy
+.idea/
+__pycache__/
