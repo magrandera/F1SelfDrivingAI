@@ -3,4 +3,5 @@ training/*
 saved/*
 training_data.npy
 .idea/
+!*.gitkeep
 __pycache__/

@@ -1,6 +1,8 @@
 import numpy as np
 
-from utils.models import inception_v3 as googlenet
+from models.squeeze import squeeze as maia
+from keras.models import load_model
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
 FILE_I_END = 46
 
@@ -11,10 +13,10 @@ EPOCHS = 30
 
 SAVED = 'saved/'
 
-MODEL_NAME = 'test'
-PREV_MODEL = 'test'
+MODEL_NAME = 'squeeze'
+PREV_MODEL = 'squeeze'
 
-LOAD_MODEL = False
+LOAD_MODEL = True
 
 wl = 0
 sl = 0
@@ -37,12 +39,11 @@ sa = [0, 0, 0, 0, 0, 0, 1, 0, 0]
 sd = [0, 0, 0, 0, 0, 0, 0, 1, 0]
 nk = [0, 0, 0, 0, 0, 0, 0, 0, 1]
 
-model = googlenet(HEIGHT, WIDTH, 3, LR, output=9, model_name=MODEL_NAME)
-
 if LOAD_MODEL:
-    model.load(SAVED + PREV_MODEL)
+    model = load_model(SAVED + PREV_MODEL + '.h5')
     print('We have loaded a previous model!!!!')
-
+else:
+    model = maia()
 # iterates through the training files
 
 for e in range(EPOCHS):
@@ -50,22 +51,18 @@ for e in range(EPOCHS):
     try:
         file_name = 'training_data.npy'
         # full file info
-        train_data = np.load(file_name)
+        train = np.load(file_name)
 
-        train = train_data[:-50]
-        test = train_data[-50:]
-
-        X = np.array([i[0] for i in train]).reshape(-1, HEIGHT, WIDTH, 3)
+        X = np.array([i[0] for i in train])
         Y = [i[1] for i in train]
 
-        test_x = np.array([i[0] for i in test]).reshape(-1, HEIGHT, WIDTH, 3)
-        test_y = [i[1] for i in test]
-
-        model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}),
-                  snapshot_step=2500, show_metric=True, run_id=MODEL_NAME)
-
-        print('SAVING MODEL!')
-        model.save(SAVED + MODEL_NAME)
+        model.fit(X, Y,
+                  batch_size=64,
+                  epochs=30,
+                  validation_split=0.1,
+                  callbacks=[
+                      ModelCheckpoint(SAVED + MODEL_NAME + '.h5', save_best_only=True)]
+                  )
 
     except Exception as e:
         print(e)

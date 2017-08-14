@@ -2,6 +2,7 @@ import random
 import time
 from collections import deque
 from statistics import mean
+from keras.models import load_model
 
 import cv2
 import numpy as np
@@ -9,7 +10,7 @@ import numpy as np
 from utils.directkeys import PressKey, ReleaseKey, W, A, S, D
 from utils.getkeys import key_check
 from utils.grabscreen_v2 import grabscreen
-from utils.models import inception_v3 as googlenet
+from utils.models_v2 import squeeze as googlenet
 from utils.motion import motion_detection
 
 GAME_WIDTH = 600
@@ -117,9 +118,7 @@ def no_keys():
     ReleaseKey(D)
 
 
-model = googlenet(HEIGHT, WIDTH, 3, LR, output=9)
-MODEL_NAME = 'saved/f1self'
-model.load(MODEL_NAME)
+model = load_model('saved/squeeze.h5')
 
 print('We have loaded a previous model!!!!')
 
