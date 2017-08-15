@@ -25,7 +25,7 @@ def fire_module(x, fire_id, squeeze=16, expand=64):
     return x
 
 def squeeze():
-    img_input = Input(shape=(133, 180, 3))
+    img_input = Input(shape=(173, 250, 3))
     x = Convolution2D(64, (3, 3), strides=(2, 2), padding='valid', name='conv1')(img_input)
     x = Activation('relu', name='relu_conv1')(x)
     x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x)

@@ -6,8 +6,8 @@ from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
 FILE_I_END = 46
 
-WIDTH = 180
-HEIGHT = 133
+WIDTH = 250
+HEIGHT = 173
 LR = 1e-3
 EPOCHS = 30
 

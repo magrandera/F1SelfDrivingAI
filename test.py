@@ -10,7 +10,7 @@ import numpy as np
 from utils.directkeys import PressKey, ReleaseKey, W, A, S, D
 from utils.getkeys import key_check
 from utils.grabscreen_v2 import grabscreen
-from utils.models_v2 import squeeze as googlenet
+from models.squeeze import squeeze as googlenet
 from utils.motion import motion_detection
 
 GAME_WIDTH = 600
@@ -23,8 +23,8 @@ log_len = 25
 motion_req = 800
 motion_log = deque(maxlen=log_len)
 
-WIDTH = 180
-HEIGHT = 133
+WIDTH = 250
+HEIGHT = 173
 LR = 1e-3
 EPOCHS = 10
 
@@ -144,7 +144,7 @@ def main():
         if not paused:
             screen = grabscreen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
-
+            print(screen.shape)
             last_time = time.time()
 
             delta_count = motion_detection(t_minus, t_now, t_plus)
@@ -153,7 +153,7 @@ def main():
             t_now = t_plus
             t_plus = screen
             t_plus = cv2.blur(t_plus, (4, 4))
-            prediction = model.predict([screen.reshape(HEIGHT, WIDTH, 3)])[0]
+            prediction = model.predict(screen.reshape(1, HEIGHT, WIDTH, 3))[0]
             prediction = np.array(prediction)# * np.array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.2])
             second = np.argpartition(a, -2)[1]
             mode_choice = np.argmax(prediction)
