@@ -3,7 +3,7 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-FILE_I_END = 61
+FILE_I_END = 101
 LoadPrev = False
 
 data_order = [i for i in range(2, FILE_I_END + 1)]
@@ -75,11 +75,11 @@ print("NK: {}".format(len(nk)))
 
 balance = min(len(w), len(a), len(d), len(wa), len(wd), len(nk))
 
-w = w[:2*balance]
+w = w[:round(2.5*balance)]
 s = s[:balance]
 a = a[:balance]
 d = d[:balance]
-wa = wa[:round(1.2*balance)]
+wa = wa[:round(1.*balance)]
 wd = wd[:round(1.2*balance)]
 sa = sa[:balance]
 sd = sd[:balance]

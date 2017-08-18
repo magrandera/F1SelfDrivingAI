@@ -46,23 +46,21 @@ else:
     model = maia()
 # iterates through the training files
 
-for e in range(EPOCHS):
-    print("--------------------- EPOCH: {} --------------------".format(e))
-    try:
-        file_name = 'training_data.npy'
-        # full file info
-        train = np.load(file_name)
+try:
+    file_name = 'training_data.npy'
+    # full file info
+    train = np.load(file_name)
 
-        X = np.array([i[0] for i in train])
-        Y = [i[1] for i in train]
+    X = np.array([i[0] for i in train])
+    Y = [i[1] for i in train]
 
-        model.fit(X, Y,
-                  batch_size=64,
-                  epochs=30,
-                  validation_split=0.1,
-                  callbacks=[
-                      ModelCheckpoint(SAVED + MODEL_NAME + '.h5', save_best_only=True)]
-                  )
+    model.fit(X, Y,
+              batch_size=64,
+              epochs=EPOCHS,
+              validation_split=0.1,
+              callbacks=[
+                  ModelCheckpoint(SAVED + MODEL_NAME + '.h5', save_best_only=True)]
+              )
 
-    except Exception as e:
-        print(e)
+except Exception as e:
+    print(e)
