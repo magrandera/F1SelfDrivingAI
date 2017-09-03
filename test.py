@@ -1,16 +1,19 @@
+# disables GPU for Prediciting since my laptop cannot handle the game
+# and the model at the same time
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+
 import random
 import time
 from collections import deque
 from statistics import mean
 from keras.models import load_model
-
 import cv2
 import numpy as np
-
 from utils.directkeys import PressKey, ReleaseKey, W, A, S, D
 from utils.getkeys import key_check
-from utils.grabscreen_v2 import grabscreen
-from models.squeeze import squeeze as googlenet
+from utils.grabscreen import grabscreen
 from utils.motion import motion_detection
 
 GAME_WIDTH = 600
@@ -118,7 +121,7 @@ def no_keys():
     ReleaseKey(D)
 
 
-model = load_model('saved/squeeze.h5')
+model = load_model('saved/inception.h5')
 
 print('We have loaded a previous model!!!!')
 

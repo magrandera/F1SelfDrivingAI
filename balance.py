@@ -3,13 +3,14 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-FILE_I_END = 101
-LoadPrev = False
+FILE_I_BEGIN = 153
+FILE_I_END = 213
+LoadPrev = True
 
-data_order = [i for i in range(2, FILE_I_END + 1)]
+data_order = [i for i in range(FILE_I_BEGIN + 1, FILE_I_END + 1)]
 shuffle(data_order)
 
-train_data = np.load('training/training_data-1.npy')
+train_data = np.load('training/training_data-{}.npy'.format(FILE_I_BEGIN))
 
 for count, i in enumerate(data_order):
     file_name = 'training/training_data-{}.npy'.format(i)
@@ -17,10 +18,6 @@ for count, i in enumerate(data_order):
     load_data = np.load(file_name)
     train_data = np.concatenate((train_data, load_data))
     print('training_data-{}.npy'.format(i), len(train_data))
-
-if LoadPrev:
-    old = np.load('training_data.npy')
-    train_data = np.concatenate((train_data, old))
 
 df = pd.DataFrame(train_data)
 Counter(df[1].apply(str))
@@ -88,5 +85,9 @@ nk = nk[:balance]
 
 final_data = w + s + a + d + wa + wd + sa + sd + nk
 shuffle(final_data)
+
+if LoadPrev:
+    old = np.load('training_data.npy')
+    final_data = np.concatenate((final_data, old))
 
 np.save('training_data.npy', final_data)

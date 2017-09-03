@@ -1,6 +1,6 @@
 import numpy as np
 
-from models.squeeze import squeeze as maia
+from models.inception import inception_base, inception_final
 from keras.models import load_model
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
@@ -12,11 +12,12 @@ LR = 1e-3
 EPOCHS = 30
 
 SAVED = 'saved/'
+HEAD_MODEL = 'inception_base'
+MODEL_NAME = 'inception'
 
-MODEL_NAME = 'squeeze'
-PREV_MODEL = 'squeeze'
 
-LOAD_MODEL = True
+LOAD_HEAD = True
+TRAIN_HEAD = False
 
 wl = 0
 sl = 0
@@ -39,11 +40,11 @@ sa = [0, 0, 0, 0, 0, 0, 1, 0, 0]
 sd = [0, 0, 0, 0, 0, 0, 0, 1, 0]
 nk = [0, 0, 0, 0, 0, 0, 0, 0, 1]
 
-if LOAD_MODEL:
-    model = load_model(SAVED + PREV_MODEL + '.h5')
+if LOAD_HEAD:
+    model = load_model(SAVED + HEAD_MODEL + '.h5')
     print('We have loaded a previous model!!!!')
 else:
-    model = maia()
+    model = inception_base()
 # iterates through the training files
 
 try:
@@ -54,6 +55,16 @@ try:
     X = np.array([i[0] for i in train])
     Y = [i[1] for i in train]
 
+    if TRAIN_HEAD:
+        prev = model.fit(X, Y,
+                  batch_size=64,
+                  epochs=10,
+                  validation_split=0.1,
+                  callbacks=[
+                      ModelCheckpoint(SAVED + HEAD_MODEL + '.h5', save_best_only=True)]
+                  )
+
+    model = inception_final(model)
     model.fit(X, Y,
               batch_size=64,
               epochs=EPOCHS,
@@ -61,6 +72,5 @@ try:
               callbacks=[
                   ModelCheckpoint(SAVED + MODEL_NAME + '.h5', save_best_only=True)]
               )
-
 except Exception as e:
     print(e)

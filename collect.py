@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 from utils.getkeys import key_check
-from utils.grabscreen_v2 import grabscreen
+from utils.grabscreen import grabscreen
 
 w = [1, 0, 0, 0, 0, 0, 0, 0, 0]
 s = [0, 1, 0, 0, 0, 0, 0, 0, 0]
