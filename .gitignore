@@ -1,6 +1,6 @@
 log/*
 training/*
-saved/*
+saved/
 training_data.npy
 .idea/
 !*.gitkeep

@@ -3,9 +3,9 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-FILE_I_BEGIN = 153
-FILE_I_END = 213
-LoadPrev = True
+FILE_I_BEGIN = 1 
+FILE_I_END = 309
+LoadPrev = False
 
 data_order = [i for i in range(FILE_I_BEGIN + 1, FILE_I_END + 1)]
 shuffle(data_order)

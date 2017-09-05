@@ -4,11 +4,6 @@ from models.squeeze import squeeze as maia
 from keras.models import load_model
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
-FILE_I_END = 153
-
-WIDTH = 250
-HEIGHT = 173
-LR = 1e-3
 EPOCHS = 30
 
 SAVED = 'saved/'
@@ -57,7 +52,7 @@ try:
     model.fit(X, Y,
               batch_size=64,
               epochs=EPOCHS,
-              validation_split=0.1,
+              validation_split=0.05,
               callbacks=[
                   ModelCheckpoint(SAVED + MODEL_NAME + '.h5', save_best_only=True)]
               )
