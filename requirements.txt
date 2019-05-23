@@ -7,7 +7,7 @@ mss==3.0.1
 numpy==1.16.3
 opencv-python==3.3.0.9
 pandas==0.20.3
-protobuf==3.4.0
+protobuf==3.7.1
 pypiwin32==219
 python-dateutil==2.6.1
 pytz==2017.2
