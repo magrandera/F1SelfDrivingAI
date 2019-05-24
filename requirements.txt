@@ -5,7 +5,7 @@ Keras==2.0.8
 Markdown==3.1.1
 mss==4.0.3
 numpy==1.16.3
-opencv-python==3.3.0.9
+opencv-python==4.1.0.25
 pandas==0.20.3
 protobuf==3.7.1
 pypiwin32==219
